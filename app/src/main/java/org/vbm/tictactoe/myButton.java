@@ -36,6 +36,11 @@ public class myButton extends android.support.v7.widget.AppCompatButton {
         super( context);
         this.a = a;
         this.b = b;
+        this.setPadding(2,2,2,2);
+        this.setFrame(1,1,1,1);
+        this.setBackgroundResource(android.R.drawable.btn_default_small);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
+           setClipToOutline(true);
         /*setMaxHeight(heigth);
         setMaxWidth(width);
         setWidth(width);

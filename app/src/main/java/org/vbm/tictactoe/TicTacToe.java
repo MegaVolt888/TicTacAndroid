@@ -12,7 +12,7 @@ import java.util.Scanner;
 class TicTacToe implements View.OnClickListener{
 
     private final int WIN_COINT = 4;
-    private final int BOARD_SIZE = 9;
+    private final int BOARD_SIZE = 7;
     private final char USER_CHAR = 'X';
     private final char COMP_CHAR = 'O';
     private final char EMPTY_CELL_CHAR = '.';
@@ -273,7 +273,7 @@ class TicTacToe implements View.OnClickListener{
        // System.out.println("----------");
         if (!gameOver) {
             compMove();
-         movecatcher.putMove(curY, curX);
+            movecatcher.putMove(curY, curX);
             if (checkWin(COMP_CHAR) != -1) {
                 gameOver = true;
                 Toast.makeText(view.getContext(),"I win!", Toast.LENGTH_LONG).show();

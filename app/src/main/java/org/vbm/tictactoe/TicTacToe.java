@@ -43,26 +43,6 @@ class TicTacToe implements View.OnClickListener{
 
     }
 
-    public Boolean go(int a, int b) {
-
-
-        userMove(a, b);
-        printBoard();
-        if (checkWin(USER_CHAR) != -1)
-            gameOver = true;
-
-        System.out.println("----------");
-        if (!gameOver) {
-            compMove();
-            printBoard();
-            if (checkWin(COMP_CHAR) != -1)
-                gameOver = true;
-        }
-
-
-        return gameOver;
-
-    }
 
     private void initBoard() {
         for (int i = 0; i < BOARD_SIZE; ++i)
@@ -70,24 +50,7 @@ class TicTacToe implements View.OnClickListener{
                 board[i][j] = EMPTY_CELL_CHAR;
     }
 
-    private void printBoard() {
 
-        System.out.print(".");
-        for (int i = 1; i <= BOARD_SIZE; ++i)
-            System.out.print(" " + i);
-        System.out.println();
-        for (int i = 0; i < BOARD_SIZE; ++i) {
-            System.out.print((i + 1) + " ");
-            for (int j = 0; j < BOARD_SIZE; ++j)
-                System.out.print(board[i][j] + " ");
-            System.out.println();
-        }
-        System.out.print(".");
-        for (int i = 1; i <= BOARD_SIZE; ++i)
-            System.out.print(" " + i);
-        System.out.println();
-        System.out.println("curX, curY : " + (curX + 1) + " | " + (curY + 1));
-    }
 
     private void userMove(int a, int b) {
         Scanner sc = new Scanner(System.in);
@@ -100,7 +63,7 @@ class TicTacToe implements View.OnClickListener{
     private void compMove() {
         double maxMove, curMove;
         int maxX, maxY;
-        maxMove = 0;
+        maxMove = -5000;
         maxX = maxY = 0;
         compMoves++;
         for (int i = 0; i < BOARD_SIZE; ++i)
@@ -134,7 +97,7 @@ class TicTacToe implements View.OnClickListener{
 
     private int checkWin(char whoisChar) {
         if (userMoves + compMoves == BOARD_SIZE * BOARD_SIZE) {
-            System.out.println("Withdraw");
+            //System.out.println("Withdraw");
             return 0;
         }
         int vector[][] = {{0, 1}, {1, 0}, {1, 1}, {-1, 1}};
@@ -181,9 +144,9 @@ class TicTacToe implements View.OnClickListener{
             // Compare line finishing
             t_x = a;
             t_y = b;
-
-            n = 1;
             moveWeigth = 0.0;
+            n = 1;
+
             int ms = linelength(a, b, moveChar, aVector) ;
             if( ms < WIN_COINT ) continue ;
 
@@ -219,8 +182,10 @@ class TicTacToe implements View.OnClickListener{
             if (n >= WIN_COINT && moveChar == USER_CHAR) return 2000;
 
             if (curWeigth < moveWeigth) curWeigth = moveWeigth;
+            //curWeigth += moveWeigth;
 
         }
+
         if( a == 0 || a == BOARD_SIZE - 1|| b == 0 || b == BOARD_SIZE - 1) curWeigth -= 50;
         return curWeigth;
     }
@@ -264,16 +229,24 @@ class TicTacToe implements View.OnClickListener{
         b.setText("X");
         curY = b.getA();
         curX = b.getB();
+        userMoves ++;
         board[curY][curX] = USER_CHAR;
         //Toast.makeText(b.getContext(), "User move number: " + (++userMoves), Toast.LENGTH_SHORT).show();
+        if( userMoves + compMoves == BOARD_SIZE*BOARD_SIZE ){
+            gameOver = true;
+            Toast.makeText(view.getContext(),"Withdraw!", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if (checkWin(USER_CHAR) != -1) {
             gameOver = true;
             Toast.makeText(view.getContext(),"you win!", Toast.LENGTH_LONG).show();
+            return;
         }
+
        // System.out.println("----------");
         if (!gameOver) {
             compMove();
-            Toast.makeText(view.getContext(), "Move " + (curX+1) + ", " + (curY+1), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(view.getContext(), "Move " + (curX+1) + ", " + (curY+1), Toast.LENGTH_SHORT).show();
             movecatcher.putMove(curY, curX);
             if (checkWin(COMP_CHAR) != -1) {
                 gameOver = true;

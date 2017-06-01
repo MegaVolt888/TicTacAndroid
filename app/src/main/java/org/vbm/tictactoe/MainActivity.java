@@ -33,10 +33,8 @@ public class MainActivity extends AppCompatActivity implements Movecatcher {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
                 row.setClipToOutline(true);
             row.setFitsSystemWindows(true);
-            for (int j = 0; j < 7; ++j) {
-                //TableRow.LayoutParams trParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
+            for (int j = 0; j < 7; ++j)
                 row.addView(new myButton(this, i, j, width, heigth, (View.OnClickListener) tictac));
-            }
             gridLayout.addView(row);
         }
         gridLayout.refreshDrawableState();

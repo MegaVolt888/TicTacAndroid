@@ -39,13 +39,6 @@ public class myButton extends android.support.v7.widget.AppCompatButton {
         this.setPadding(2,2,2,2);
         this.setFrame(1,1,1,1);
         this.setBackgroundResource(android.R.drawable.btn_default_small);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
-           setClipToOutline(true);
-        /*setMaxHeight(heigth);
-        setMaxWidth(width);
-        setWidth(width);
-        setHeight(heigth);*/
-
         TableRow.LayoutParams trParams = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
         setText(" ");
         setOnClickListener(listener);

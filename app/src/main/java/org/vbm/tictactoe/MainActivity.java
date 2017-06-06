@@ -1,8 +1,8 @@
 package org.vbm.tictactoe;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity implements Movecatcher {
         gridLayout = (TableLayout) findViewById(R.id.gLayout);
 
 
-        heigth = gridLayout.getHeight() / 7 - 7;
-        width = gridLayout.getWidth() / 7 - 7;
+        //heigth = gridLayout.getHeight() / 7 - 7;
+        //width = gridLayout.getWidth() / 7 - 7;
         heigth = this.getResources().getDisplayMetrics().heightPixels / 7;
         width = this.getResources().getDisplayMetrics().widthPixels / 7;
         for (int i = 0; i < 7; ++i) {
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements Movecatcher {
                 row.setClipToOutline(true);
             row.setFitsSystemWindows(true);
             for (int j = 0; j < 7; ++j)
-                row.addView(new myButton(this, i, j, width, heigth, (View.OnClickListener) tictac));
+                row.addView(new myButton(this, i, j, width, heigth, tictac));
             gridLayout.addView(row);
         }
         gridLayout.refreshDrawableState();
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements Movecatcher {
         TableRow row = (TableRow) gridLayout.getChildAt(a);
         myButton btn = (myButton) row.getChildAt(b);
         btn.setText("O");
+        btn.setTextColor(Color.BLUE);
         return true;
     }
 

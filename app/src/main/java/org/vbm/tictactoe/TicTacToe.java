@@ -1,5 +1,6 @@
 package org.vbm.tictactoe;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.Toast;
 
@@ -7,6 +8,7 @@ import java.util.Scanner;
 
 /**
  * Created by vbm on 29/05/2017.
+ * Class for Go style game logic
  */
 
 class TicTacToe implements View.OnClickListener{
@@ -133,7 +135,7 @@ class TicTacToe implements View.OnClickListener{
     }
 
     private double moveWeigth(int a, int b, char moveChar) {
-        double moveWeigth, curWeigth = 0.0;
+        double moveWeigth, curWeigth = 0.0, elseweigth = 0.0;
         int n;
         int t_x, t_y;
 
@@ -181,13 +183,15 @@ class TicTacToe implements View.OnClickListener{
             if (n >= WIN_COINT && moveChar == COMP_CHAR) return 5000;
             if (n >= WIN_COINT && moveChar == USER_CHAR) return 2000;
 
-            if (curWeigth < moveWeigth) curWeigth =+ moveWeigth;
-            else curWeigth += moveWeigth > 0 ? moveWeigth * 0.2 : 0;
+            if (curWeigth < moveWeigth) curWeigth = moveWeigth;
+            elseweigth += moveWeigth > 0 ? moveWeigth * 0.2 : 0;
+
 
         }
 
         if( a == 0 || a == BOARD_SIZE - 1|| b == 0 || b == BOARD_SIZE - 1) curWeigth -= 50;
-        return curWeigth;
+        elseweigth += curWeigth;
+        return elseweigth;
     }
 
     private int linelength(int a, int b, char moveChar, int[] aVector ){
@@ -227,6 +231,7 @@ class TicTacToe implements View.OnClickListener{
         myButton b = (myButton) view;
         if( !b.getText().equals(" ") ) return ;
         b.setText("X");
+        b.setTextColor(Color.RED);
         curY = b.getA();
         curX = b.getB();
         userMoves ++;

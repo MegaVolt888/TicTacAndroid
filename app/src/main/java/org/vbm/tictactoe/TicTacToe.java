@@ -68,12 +68,15 @@ class TicTacToe implements View.OnClickListener {
         int maxX, maxY;
         maxMove = -5000;
         maxX = maxY = 0;
-        compMoves++;
-        if (!myMove && compMoves == 1) {
+
+        if (!myMove && compMoves == 0) {
             curX = curY = BOARD_SIZE / 2;
-            board[maxY][maxX] = COMP_CHAR;
+            board[curY][curX] = COMP_CHAR;
+            compMoves++;
             return;
         }
+
+        compMoves++;
         for (int i = 0; i < BOARD_SIZE; ++i)
             for (int j = 0; j < BOARD_SIZE; ++j) {
                 if (board[i][j] != EMPTY_CELL_CHAR) continue;

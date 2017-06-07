@@ -14,8 +14,8 @@ import java.util.Scanner;
 
 class TicTacToe implements View.OnClickListener {
 
+    public final int BOARD_SIZE = 8;
     private final int WIN_COINT = 5;
-    private final int BOARD_SIZE = 7;
     private final char USER_CHAR = 'X';
     private final char COMP_CHAR = 'O';
     private final char EMPTY_CELL_CHAR = '.';

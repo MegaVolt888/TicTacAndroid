@@ -26,14 +26,14 @@ public class MainActivity extends AppCompatActivity implements Movecatcher {
 
         //heigth = gridLayout.getHeight() / 7 - 7;
         //width = gridLayout.getWidth() / 7 - 7;
-        heigth = this.getResources().getDisplayMetrics().heightPixels / 7;
-        width = this.getResources().getDisplayMetrics().widthPixels / 7;
-        for (int i = 0; i < 7; ++i) {
+        heigth = this.getResources().getDisplayMetrics().heightPixels / tictac.BOARD_SIZE;
+        width = this.getResources().getDisplayMetrics().widthPixels / tictac.BOARD_SIZE;
+        for (int i = 0; i < tictac.BOARD_SIZE; ++i) {
             TableRow row = new TableRow(this);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP)
                 row.setClipToOutline(true);
             row.setFitsSystemWindows(true);
-            for (int j = 0; j < 7; ++j)
+            for (int j = 0; j < tictac.BOARD_SIZE; ++j)
                 row.addView(new myButton(this, i, j, width, heigth, tictac));
             gridLayout.addView(row);
         }

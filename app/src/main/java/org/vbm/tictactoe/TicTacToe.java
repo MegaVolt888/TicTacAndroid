@@ -14,13 +14,13 @@ import java.util.Scanner;
 
 class TicTacToe implements View.OnClickListener {
 
-    public final int BOARD_SIZE = 8;
+    final int BOARD_SIZE = 8;
     private final int WIN_COINT = 5;
     private final char USER_CHAR = 'X';
     private final char COMP_CHAR = 'O';
     private final char EMPTY_CELL_CHAR = '.';
     private final char[][] board;
-    int vector[][] = {{0, 1}, {1, 0}, {1, 1}, {-1, 1}};
+    private int vector[][] = {{0, 1}, {1, 0}, {1, 1}, {-1, 1}};
     private boolean myMove = true;
     private Movecatcher movecatcher;
     /**
@@ -188,7 +188,7 @@ class TicTacToe implements View.OnClickListener {
             if (n >= WIN_COINT && moveChar == USER_CHAR) return 2000;
 
             if (curWeigth < moveWeigth) curWeigth = moveWeigth;
-            elseweigth += moveWeigth > 0 ? moveWeigth * 0.2 : 0;
+            elseweigth += moveWeigth > 0 ? moveWeigth * 0.25 : 0;
 
 
         }

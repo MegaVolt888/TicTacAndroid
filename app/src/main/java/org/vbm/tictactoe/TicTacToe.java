@@ -12,15 +12,16 @@ import java.util.Scanner;
  * Class for Go style game logic
  */
 
-class TicTacToe implements View.OnClickListener {
+public class TicTacToe implements View.OnClickListener {
 
-    final int BOARD_SIZE = 8;
-    private final int WIN_COINT = 5;
     private final char USER_CHAR = 'X';
     private final char COMP_CHAR = 'O';
     private final char EMPTY_CELL_CHAR = '.';
-    private final char[][] board;
-    private int vector[][] = {{0, 1}, {1, 0}, {1, 1}, {-1, 1}};
+    private final int vector[][] = {{0, 1}, {1, 0}, {1, 1}, {-1, 1}};
+    public int BOARD_SIZE = 7;
+    private boolean ifWithdraw;
+    private int WIN_COINT = 5;
+    private char[][] board;
     private boolean myMove = true;
     private Movecatcher movecatcher;
     /**
@@ -34,7 +35,7 @@ class TicTacToe implements View.OnClickListener {
     private int curY;
     private boolean gameOver;
 
-    TicTacToe(Movecatcher movecatcher) {
+    public TicTacToe(Movecatcher movecatcher) {
 
         // Initialize count of moves;
         userMoves = 0;
@@ -53,6 +54,7 @@ class TicTacToe implements View.OnClickListener {
             for (int j = 0; j < BOARD_SIZE; ++j)
                 board[i][j] = EMPTY_CELL_CHAR;
     }
+
 
 
     private void userMove(int a, int b) {
@@ -75,8 +77,9 @@ class TicTacToe implements View.OnClickListener {
             compMoves++;
             return;
         }
-
+        ifWithdraw = true;
         compMoves++;
+
         for (int i = 0; i < BOARD_SIZE; ++i)
             for (int j = 0; j < BOARD_SIZE; ++j) {
                 if (board[i][j] != EMPTY_CELL_CHAR) continue;
@@ -117,6 +120,7 @@ class TicTacToe implements View.OnClickListener {
             n = 1;
             t_x = curX;
             t_y = curY;
+
             while (t_x < BOARD_SIZE && t_x >= 0 && t_y < BOARD_SIZE && t_y >= 0) {
                 if (board[t_y][t_x] != whoisChar) break;
                 if (t_x != curX || t_y != curY) ++n;
@@ -150,51 +154,46 @@ class TicTacToe implements View.OnClickListener {
 
         for (int[] aVector : vector) {
             // Compare line finishing
-            t_x = a;
-            t_y = b;
-            moveWeigth = 0.0;
             n = 1;
-
             int ms = linelength(a, b, moveChar, aVector);
-            if (ms < WIN_COINT) continue;
+            if (ms < WIN_COINT + 1) continue;
+            else
+                ifWithdraw = false;
+            moveWeigth = 0.0;
+            for (int c = -1; c < 2; c += 2) {
 
-            while (t_x < BOARD_SIZE && t_x >= 0 && t_y < BOARD_SIZE && t_y >= 0) {
-                if (t_x != a || t_y != b)
-                    if (board[t_y][t_x] != moveChar) {
-                        if (board[t_y][t_x] != EMPTY_CELL_CHAR) moveWeigth -= 35;
-                        break;
-                    } else ++n;
-                moveWeigth += 100;
-                t_x += aVector[0];
-                t_y += aVector[1];
-                if (t_x < 0 || t_x == BOARD_SIZE || t_y < 0 || t_y == BOARD_SIZE) moveWeigth -= 30;
+                t_x = a;
+                t_y = b;
+                while (t_x < BOARD_SIZE && t_x >= 0 && t_y < BOARD_SIZE && t_y >= 0) {
+                    if (t_x != a || t_y != b) {
+                        if (board[t_y][t_x] != moveChar) {
+                            if (board[t_y][t_x] != EMPTY_CELL_CHAR) moveWeigth -= 55;
+                            break;
+                        } else ++n;
+                        moveWeigth += 100;
+                    }
+
+                    t_x += c * aVector[0];
+                    t_y += c * aVector[1];
+
+                    if (t_x < 0 || t_x == BOARD_SIZE || t_y < 0 || t_y == BOARD_SIZE)
+                        moveWeigth -= 35;
+                }
+
+
             }
-
-            t_x = a;
-            t_y = b;
-            while (t_x < BOARD_SIZE && t_x >= 0 && t_y < BOARD_SIZE && t_y >= 0) {
-                if (t_x != a || t_y != b)
-                    if (board[t_y][t_x] != moveChar) {
-                        if (board[t_y][t_x] != EMPTY_CELL_CHAR) moveWeigth -= 35;
-                        break;
-                    } else ++n;
-                moveWeigth += 100;
-                t_x -= aVector[0];
-                t_y -= aVector[1];
-                if (t_x < 0 || t_x == BOARD_SIZE || t_y < 0 || t_y == BOARD_SIZE) moveWeigth -= 30;
-            }
-
+            moveWeigth += n * 10;
             if (n >= WIN_COINT && moveChar == COMP_CHAR) return 5000;
             if (n >= WIN_COINT && moveChar == USER_CHAR) return 2000;
-
+            if (n == WIN_COINT - 1) curWeigth += 800;
             if (curWeigth < moveWeigth) curWeigth = moveWeigth;
-            elseweigth += moveWeigth > 0 ? moveWeigth * 0.25 : 0;
-
+            elseweigth += moveWeigth > 0 ? moveWeigth * 0.17 : 0;
+            //elseweigth += ms*10;
 
         }
-
-        if (a == 0 || a == BOARD_SIZE - 1 || b == 0 || b == BOARD_SIZE - 1) curWeigth -= 50;
         elseweigth += curWeigth;
+        if (a == 0 || a == BOARD_SIZE - 1 || b == 0 || b == BOARD_SIZE - 1) elseweigth -= 35;
+
         return elseweigth;
     }
 
@@ -209,13 +208,17 @@ class TicTacToe implements View.OnClickListener {
         for (int k = -1; k < 2; k += 2) {
             t_x = a;
             t_y = b;
+            /*t_x += aVector[0] * k;
+            t_y += aVector[1] * k;*/
             while (t_x < BOARD_SIZE && t_x >= 0 && t_y < BOARD_SIZE && t_y >= 0) {
                 if (board[t_y][t_x] != moveChar && board[t_y][t_x] != EMPTY_CELL_CHAR) break;
-                if (t_x != a || t_y != b) ++n;
+                ++n;
                 t_x += aVector[0] * k;
                 t_y += aVector[1] * k;
             }
+
         }
+        --n;
         return n;
     }
 
@@ -243,7 +246,7 @@ class TicTacToe implements View.OnClickListener {
             board[curY][curX] = USER_CHAR;
             if (userMoves + compMoves == BOARD_SIZE * BOARD_SIZE) {
                 gameOver = true;
-                myMove = !myMove;
+                //myMove = !myMove;
                 Toast.makeText(view.getContext(), "Withdraw!", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -261,18 +264,30 @@ class TicTacToe implements View.OnClickListener {
         compMove();
         //Toast.makeText(view.getContext(), "Move " + (curX+1) + ", " + (curY+1), Toast.LENGTH_SHORT).show();
         movecatcher.putMove(curY, curX);
-        Log.d("Comp move: ", (curX + 1) + ", " + (curY + 1));
         if (checkWin(COMP_CHAR) == 1) {
-            myMove = !myMove;
+            //myMove = !myMove;
             gameOver = true;
             Toast.makeText(view.getContext(), "I win!", Toast.LENGTH_LONG).show();
+            return;
         }
-        if (checkWin(COMP_CHAR) == 0) {
+        if (ifWithdraw) {
             gameOver = true;
             myMove = !myMove;
             Toast.makeText(view.getContext(), "Withdraw!", Toast.LENGTH_LONG).show();
+            ifWithdraw = false;
+            return;
         }
+        Log.d("Comp move: ", (curX + 1) + ", " + (curY + 1));
+
+        /*if (checkWin(COMP_CHAR) == 0) {
+            gameOver = true;
+            myMove = !myMove;
+            Toast.makeText(view.getContext(), "Withdraw!", Toast.LENGTH_LONG).show();
+            return;
+        }*/
         //}
 
     }
+
+
 }

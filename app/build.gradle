@@ -7,8 +7,8 @@ android {
         applicationId "org.vbm.tictactoe"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 23
-        versionName "2.3b"
+        versionCode 24
+        versionName "2.4b"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

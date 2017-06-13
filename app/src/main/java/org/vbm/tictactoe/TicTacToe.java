@@ -182,7 +182,7 @@ class TicTacToe implements View.OnClickListener {
 
 
             }
-            moveWeigth += n * 10;
+            //moveWeigth += n * 10;
             if (n >= WIN_COINT && moveChar == COMP_CHAR) return 5000;
             if (n >= WIN_COINT && moveChar == USER_CHAR) return 2000;
             if (n == WIN_COINT - 1 && moveWeigth > (WIN_COINT - 1.5) * 100) moveWeigth += 300;

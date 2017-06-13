@@ -2,7 +2,6 @@ package org.vbm.tictactoe;
 
 import android.graphics.Color;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import java.util.Scanner;
@@ -12,7 +11,7 @@ import java.util.Scanner;
  * Class for Go style game logic
  */
 
-class TicTacToe implements View.OnClickListener {
+class TicTacToe  {
 
     private final char USER_CHAR = 'X';
     private final char COMP_CHAR = 'O';
@@ -222,8 +221,9 @@ class TicTacToe implements View.OnClickListener {
         return n;
     }
 
-    @Override
-    public void onClick(View view) {
+
+    void uMove(int a, int b) {
+
         if (gameOver) {
             gameOver = false;
             initBoard();
@@ -235,25 +235,24 @@ class TicTacToe implements View.OnClickListener {
             if (myMove)
                 return;
         }
+        if( board[a][b] != '.') return;
         if ((!myMove && compMoves > 0) || myMove) {
-            myButton b = (myButton) view;
-            if (!b.getText().equals(" ")) return;
-            b.setText("X");
-            b.setTextColor(Color.RED);
-            curY = b.getA();
-            curX = b.getB();
+            movecatcher.putMove(a, b, 'X',Color.RED);
+            curY = a;
+            curX = b;
+
             userMoves++;
             board[curY][curX] = USER_CHAR;
             if (userMoves + compMoves == BOARD_SIZE * BOARD_SIZE) {
                 gameOver = true;
                 //myMove = !myMove;
-                Toast.makeText(view.getContext(), "Withdraw!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(movecatcher.getContext(), "Withdraw!", Toast.LENGTH_SHORT).show();
                 return;
             }
             //Toast.makeText(b.getContext(), "User move number: " + (++userMoves), Toast.LENGTH_SHORT).show();
             if (checkWin(USER_CHAR) != -1) {
                 gameOver = true;
-                Toast.makeText(view.getContext(), "you win!", Toast.LENGTH_LONG).show();
+                Toast.makeText(movecatcher.getContext(), "you win!", Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -263,17 +262,17 @@ class TicTacToe implements View.OnClickListener {
         //if (!gameOver) {
         compMove();
         //Toast.makeText(view.getContext(), "Move " + (curX+1) + ", " + (curY+1), Toast.LENGTH_SHORT).show();
-        movecatcher.putMove(curY, curX);
+        movecatcher.putMove(curY, curX, 'O', Color.BLUE);
         if (checkWin(COMP_CHAR) == 1) {
             //myMove = !myMove;
             gameOver = true;
-            Toast.makeText(view.getContext(), "I win!", Toast.LENGTH_LONG).show();
+            Toast.makeText(movecatcher.getContext(), "I win!", Toast.LENGTH_LONG).show();
             return;
         }
         if (ifWithdraw) {
             gameOver = true;
             myMove = !myMove;
-            Toast.makeText(view.getContext(), "Withdraw!", Toast.LENGTH_LONG).show();
+            Toast.makeText(movecatcher.getContext(), "Withdraw!", Toast.LENGTH_LONG).show();
             ifWithdraw = false;
             return;
         }

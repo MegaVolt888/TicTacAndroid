@@ -1,12 +1,13 @@
 package org.vbm.tictactoe;
 
-import android.graphics.Color;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-public class MainActivity extends AppCompatActivity implements Movecatcher {
+public class MainActivity extends AppCompatActivity implements Movecatcher, View.OnClickListener {
     TicTacToe tictac;
     TableLayout gridLayout;
 
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements Movecatcher {
                 row.setClipToOutline(true);
             row.setFitsSystemWindows(true);
             for (int j = 0; j < tictac.BOARD_SIZE; ++j)
-                row.addView(new myButton(this, i, j, width, heigth, tictac));
+                row.addView(new myButton(this, i, j, width, heigth, this));
             gridLayout.addView(row);
         }
         gridLayout.refreshDrawableState();
@@ -42,11 +43,11 @@ public class MainActivity extends AppCompatActivity implements Movecatcher {
     }
 
     @Override
-    public Boolean putMove(int a, int b) {
+    public Boolean putMove(int a, int b, char moveChar, int moveColor) {
         TableRow row = (TableRow) gridLayout.getChildAt(a);
         myButton btn = (myButton) row.getChildAt(b);
-        btn.setText("O");
-        btn.setTextColor(Color.BLUE);
+        btn.setText(String.valueOf(moveChar));
+        btn.setTextColor(moveColor);
         return true;
     }
 
@@ -56,5 +57,16 @@ public class MainActivity extends AppCompatActivity implements Movecatcher {
             for (int j = 0; j < ((TableRow) gridLayout.getChildAt(i)).getChildCount(); ++j)
                 ((myButton) ((TableRow) gridLayout.getChildAt(i)).getChildAt(j)).setText(" ");
         }
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public void onClick(View v) {
+        myButton bt = (myButton) v;
+        tictac.uMove(bt.getA(), bt.getB());
     }
 }

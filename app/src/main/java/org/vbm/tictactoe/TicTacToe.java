@@ -169,7 +169,7 @@ class TicTacToe  {
                             if (board[t_y][t_x] != EMPTY_CELL_CHAR) moveWeigth -= 85;
                             break;
                         } else ++n;
-                        moveWeigth += 100 + 4 * n;
+                        moveWeigth += 100 + 10 * n;
                     }
 
                     t_x += c * aVector[0];
@@ -186,7 +186,7 @@ class TicTacToe  {
             if (n >= WIN_COINT && moveChar == USER_CHAR) return 2000;
             if (n == WIN_COINT - 1 && moveWeigth > (WIN_COINT - 1.5) * 100) moveWeigth += 300;
             if (curWeigth < moveWeigth) curWeigth = moveWeigth;
-            elseweigth += moveWeigth > 0 ? moveWeigth * 0.15 : 0;
+            elseweigth += moveWeigth > 0 ? moveWeigth * 0.3 : 0;
             //elseweigth += ms*10;
 
         }

@@ -94,7 +94,7 @@ class TicTacToe  {
         for (int i = 0; i < BOARD_SIZE; ++i)
             for (int j = 0; j < BOARD_SIZE; ++j) {
                 if (board[i][j] != EMPTY_CELL_CHAR) continue;
-                if (maxMove < (curMove = moveWeigth(j, i, USER_CHAR))) {
+                if (maxMove < 0.75*(curMove = moveWeigth(j, i, USER_CHAR))) {
                     maxMove = curMove;
                     // Check here X Y assign for i j ? Debug
                     maxX = j;
@@ -166,7 +166,7 @@ class TicTacToe  {
                 while (t_x < BOARD_SIZE && t_x >= 0 && t_y < BOARD_SIZE && t_y >= 0) {
                     if (t_x != a || t_y != b) {
                         if (board[t_y][t_x] != moveChar) {
-                            if (board[t_y][t_x] != EMPTY_CELL_CHAR) moveWeigth -= 85;
+                            if (board[t_y][t_x] != EMPTY_CELL_CHAR) moveWeigth -= 200;
                             break;
                         } else ++n;
                         moveWeigth += 100 + 10 * n;
@@ -179,12 +179,12 @@ class TicTacToe  {
                         moveWeigth -= 55;
                 }
 
-
+                if (n == WIN_COINT - 1 && moveWeigth > (WIN_COINT - 0.5) * 100) moveWeigth += 135;
             }
             //moveWeigth += n * 10;
             if (n >= WIN_COINT && moveChar == COMP_CHAR) return 5000;
             if (n >= WIN_COINT && moveChar == USER_CHAR) return 2000;
-            if (n == WIN_COINT - 1 && moveWeigth > (WIN_COINT - 1.5) * 100) moveWeigth += 300;
+            if (n == WIN_COINT - 1 && moveWeigth > (WIN_COINT - 0.5) * 100) moveWeigth += 135;
             if (curWeigth < moveWeigth) curWeigth = moveWeigth;
             elseweigth += moveWeigth > 0 ? moveWeigth * 0.3 : 0;
             //elseweigth += ms*10;
